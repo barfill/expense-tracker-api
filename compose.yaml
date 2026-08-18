@@ -1,0 +1,34 @@
+services:
+    api:
+        build:
+            context: .
+            dockerfile: Dockerfile
+            args:
+                HOST_UID: ${HOST_UID}
+                HOST_GID: ${HOST_GID}
+
+        ports:
+            - "8000:8000"
+
+        volumes:
+            - .:/var/www/html
+
+        depends_on:
+            - postgres
+
+    postgres:
+        image: postgres:17
+
+        environment:
+            POSTGRES_DB: ${DB_DATABASE}
+            POSTGRES_USER: ${DB_USERNAME}
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
+
+        ports:
+            - "5432:5432"
+
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+
+volumes:
+    postgres_data:
