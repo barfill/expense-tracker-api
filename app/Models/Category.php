@@ -9,9 +9,11 @@ use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Enums\CategoryType;
 
 #[Table('expense_tracker.categories')]
 #[Fillable(['created_by', 'code', 'name', 'description', 'type', 'is_public', 'is_active'])]
+//created_by is here temporarily to allow
 class Category extends Model
 {
     /** @use HasFactory<\Database\Factories\CategoryFactory> */
@@ -33,6 +35,18 @@ class Category extends Model
     public function transactions(): HasMany
     {
         return $this->hasMany(Transaction::class);
+    }
+
+    /**
+     * Casting attributes
+     */
+    protected function casts(): array
+    {
+        return [
+            'type' => CategoryType::class,
+            'is_public' => 'boolean',
+            'is_active' => 'boolean',
+        ];
     }
 
 }

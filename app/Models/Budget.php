@@ -28,4 +28,17 @@ class Budget extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+    /**
+     * Casting attributes
+     */
+    protected function casts(): array
+    {
+        return [
+            'amount' => 'decimal:2',
+            'start_date' => 'date',
+            'end_date' => 'date',
+            'is_active' => 'boolean'
+        ];
+    }
 }
